@@ -2,7 +2,8 @@ import os
 import sys
 from multiprocessing import Process, Queue
 import subprocess
-import copy
+import shlex
+import copy 
 class Shellins:
 	def __init__(self, input_arg = None, output_argv = sys.__stdout__, background_exe = None):
 		self.stdin_param = input_arg
@@ -55,16 +56,14 @@ class Shellins:
 	def list_environ(self):
 		print(self.environ, file=self.stdout_param)
 
-	def echo(self, args1):
-		if args1:
-			print(args1)
-		else:
-			
-			init = args1.split()
-			return_val = " ".join(init)
 
-			print(return_val,  file=self.stdout_param)
-			
+	def echo(self, args1):
+		if type(args1) is list:
+			print(*args1, file = self.stdout_param)
+		else:
+			print(args1, file = self.stdout_param)
+
+
 	def help(self, more_filter = None):
 		if more_filter is None:
 			with open("Readme.txt") as help_manual:
@@ -82,8 +81,8 @@ class Shellins:
 
 
 
-	def list_path(self):
-		print(self.path)
+	def list_path(self, *args):
+		print(self.path, file = self.stdout_param)
 
 	def pause(self):
 		input()
@@ -97,17 +96,19 @@ class Shellins:
 
 
 
-
+## if i call something to use a process, it requires to be passed a tuple or string, so join it 
+## dont do this * !!!!!!
 
 
 def main():
-	if sys.argv[0]:
-		shell = Shellins()
-		while True:
-			command = input("[" + shell.path + "]" + " : ").strip().split()
+	with open(sys.argv[1], "r") as f, open(sys.argv[2], "w") as g:
+		shell = Shellins(f,g)
+		for line in shell.stdin_param:
+			#commands = input("[" + shell.path + "]" + " : ")
+			command = shlex.split(line)
 		
 			if command[0] not in shell.commands:
-				print("myshell: command not found: " + command[0])
+				print("myshell: command not found: " + command[0], file = shell.stdout_param)
 				continue
 			if (len(command) - 1) > 1 and command[0] != "alias":
 				shell.commands[command[0]](command[1:])
