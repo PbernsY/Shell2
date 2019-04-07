@@ -1,6 +1,7 @@
 import sys
 import shlex
 import myshell
+from invoker import start
 
 # Flags are as follows, [background_exec, output]
 
@@ -25,29 +26,47 @@ def set_flags(string):
 
 
 def checkwrite(output_list):
-	return "Append" if ">>" in output_list else "Truncate"
+	return "a" if ">>" in output_list else "w"
 
-def parser(string):
-	print(set_flags(string))
-	
+def runner(string):
+	set_flags(string)
+	shellins.stdout_param = sys.__stdout__
+	exece = parseable[0]
+	args = " ".join(parseable[1:])
 
 	#if len(flags) > 1:
 	#	command = parseable[0]
 	#	args = " ".join(parseable[1:])
 
 	if len(flags) == 2:
-		if checkwrite(output) == "Append":
-			with open(output[0], "a") as current_file:
-				shellins.stdout_param = current_file
-				exece = parseable[0]
-				args = " ".join(parseable[1:])
+		with open(flags[-1], checkwrite(output)) as current_file:
+			shellins.stdout_param = current_file
+			shellins.commands["sp"](shellins.commands[exece], args)
+
+	elif len(flags) == 1:
+		if not len(output):
+			if len(args):
 				shellins.commands["sp"](shellins.commands[exece], args)
+			else:
+				shellins.commands["sp"](shellins.commands[exece])
+				"this bit calls the spawn"  "this bit is the command"       "this bit is the arg"
 		else:
-			with open(flags[-1], "w") as current_file:
+			with open(flags[0], checkwrite(output)) as current_file:
 				shellins.stdout_param = current_file
-				exece = parseable[0]
-				args = " ".join(parseable[1:])
-				shellins.commands["sp"](shellins.commands[exece], args)
+				shellins.commands[exece](args)
+
+	else:
+		exece = parseable[0]
+		args = " ".join(parseable[1:])
+		if len(args):
+			shellins.commands[exece](args)
+		else:
+			shellins.commands[exece]()
+
+
+
+
+
 
 
 
@@ -62,5 +81,13 @@ def parser(string):
 #		return shellins.commands[command]
 
 #print(set_flags("dir >> hello.txt"))
-shellins = myshell.Shellins()
-parser("dir ../ > j.txt &")
+
+shellins = start()
+if shellins.stdin_param is None:
+	while True:
+		runner(input())
+
+else:
+	with open(shellins.stdin_param, "r") as reader:
+		for line in reader:
+			runner(line)

@@ -92,7 +92,11 @@ class Shellins:
 
 		
 	def spawn_subprocess(self, target_func, arguments = None):
-		background_proc = Process(target = target_func, args = (arguments,))
+		if arguments is None:
+
+			background_proc = Process(target = target_func)
+		else:
+			background_proc = Process(target = target_func, args = (arguments,))
 		background_proc.run()
 
 

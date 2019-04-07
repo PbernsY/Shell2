@@ -1,0 +1,2 @@
+echo "please" >> j.txt &
+echo "hey" >> j.txt &

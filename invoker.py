@@ -1,7 +1,11 @@
 import sys
-def invoker():
+import myshell
+def start():
 	commands = sys.argv[1:]
 	if len(commands):
-		shellins = Shell(commands[0])
+		return myshell.Shellins(commands[0])
 	else:
-		shellins = Shell()
+		return myshell.Shellins()
+	
+
+
