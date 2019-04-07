@@ -1,0 +1,21 @@
+0 land 0.00
+1 arcane sanctum 0.69
+1 command tower 1.99
+1 crumbling necropolis 0.21
+1 crumbling vestige 0.15
+1 evolving wilds 0.25
+1 exotic orchard 1.65
+4 forest 0.00
+4 mountain 0.00
+4 island 0.00
+4 swamp 0.00
+4 plains 0.00
+1 frontier bivouac 0.99
+1 tomb of the spirit dragon 0.26
+1 temple of the false god 0.78
+1 nomad outpost 0.60
+1 jungle shrine 0.28
+1 reliquay tower 2.00
+1 savage lands 0.48
+1 eye of ugin 7.00
+1 spawning bed 0.24

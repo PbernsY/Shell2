@@ -90,34 +90,11 @@ class Shellins:
 	def quit(self):
 		sys.exit(0)
 
+		
 	def spawn_subprocess(self, target_func, arguments = None):
 		background_proc = Process(target = target_func, args = (arguments,))
-		background_proc.start()
-
+		background_proc.run()
 
 
 ## if i call something to use a process, it requires to be passed a tuple or string, so join it 
 ## dont do this * !!!!!!
-
-
-def main():
-	with open(sys.argv[1], "r") as f, open(sys.argv[2], "w") as g:
-		shell = Shellins(f,g)
-		for line in shell.stdin_param:
-			#commands = input("[" + shell.path + "]" + " : ")
-			command = shlex.split(line)
-		
-			if command[0] not in shell.commands:
-				print("myshell: command not found: " + command[0], file = shell.stdout_param)
-				continue
-			if (len(command) - 1) > 1 and command[0] != "alias":
-				shell.commands[command[0]](command[1:])
-			else:
-				shell.commands[command[0]](*command[1:])
-			
-	
-
-
-if __name__ == '__main__':
-	main()
-

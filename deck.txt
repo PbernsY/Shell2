@@ -1,0 +1,81 @@
+1 void winnower #
+1 benthic infiltrator #
+1 hedron crawler 
+1 paradise mantle 
+1 brood monitor 
+1 conduit of ruin 
+1 artisan of kozilek 
+1 ruination guide 
+1 bane of bala ged 
+1 decimator of provinces 
+1 mockery of nature 
+1 bearer of silence 
+1 distended mindbender 
+1 void grafter 
+1 nettle drone 
+1 dominator drone 
+1 flayer drone 
+1 forerunner of slaughter 
+1 lashweed lurker
+1 ullamogs nullifier 
+1 skittering surveryor 
+1 breaker of armies 
+1 emrakul, aeons torn 
+1 it that betrays 
+1 desolation twin 
+1 abundant maw 
+1 mana cylix 
+1 llanowar elves 
+1 beastcaller savant 
+1 opaline unicorn 
+1 wayfarers bauble 
+1 kozileks return 
+1 titans presence 
+1 consume the meek 
+1 not of this world 
+1 virulent swipe 
+1 gruesome slaughter 
+1 kodamas reach 
+1 cryptic gateway 
+1 quicksilver amulet 
+1 explosive vegetatation 
+1 fertile ground 
+1 flaying tendrils 
+1 evacuation 
+1 thaumatic compass 
+1 duneblast 
+1 journey of discovery 
+1 emrakuls influence 
+1 awakening zone 
+1 molten nursery 
+1 prophetic prism
+1 cover of darkness 
+1 hedron matrix 
+1 springleaf drum 
+1 belbes Portal 
+1 sol ring 
+1 etherium sculptor 
+1 lightning greaves 
+1 swiftfoot boots 
+1 arcane sanctum 
+1 command tower 
+1 crumbling necropolis 
+1 crumbling vestige 
+1 evolving wilds 
+1 exotic orchard 
+4 forest
+4 mountain 
+4 island 
+4 swamp 
+4 plains 
+1 frontier bivouac 
+1 tomb of the spirit dragon 
+1 temple of the false god 
+1 nomad outpost 
+1 jungle shrine 
+1 reliquay tower 
+1 savage lands 
+1 eye of ugin 
+1 spawning bed 
+1 mystic monastery 
+1 sandsteppe citadel 
