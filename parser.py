@@ -1,4 +1,5 @@
 import sys
+import os
 import shlex
 import myshell
 from invoker import start
@@ -23,6 +24,23 @@ def set_flags(string):
 	return flags, parseable, output
 
 
+def launch(args):
+	# time to execute your input
+	# use os.fork to get the process ID
+	pid = os.fork()
+
+	# if pid > 0 -> Parent process control
+	# else -> Child process control
+	if pid > 0:
+		wpid = os.waitpid(pid, 0)
+	else:
+		# try to execeute in the form (command, command_args)
+		# generate exception if command does not exist
+		try:
+			os.execvp(args[0], args)
+		except Exception as e:
+			print("myshell: command not found: " + args)
+
 
 
 def checkwrite(output_list):
@@ -33,12 +51,10 @@ def runner(string):
 	shellins.stdout_param = sys.__stdout__
 	exece = parseable[0]
 	args = " ".join(parseable[1:])
-
-	#if len(flags) > 1:
-	#	command = parseable[0]
-	#	args = " ".join(parseable[1:])
-
-	if len(flags) == 2:
+	if exece not in shellins.commands:
+		launch(parseable)
+	
+	elif len(flags) == 2:
 		with open(flags[-1], checkwrite(output)) as current_file:
 			shellins.stdout_param = current_file
 			shellins.commands["sp"](shellins.commands[exece], args)
@@ -59,7 +75,10 @@ def runner(string):
 		exece = parseable[0]
 		args = " ".join(parseable[1:])
 		if len(args):
-			shellins.commands[exece](args)
+			try:
+				shellins.commands[exece](args)
+			except:
+				shellins.commands[exece](parseable[1], parseable[2])
 		else:
 			shellins.commands[exece]()
 
@@ -85,7 +104,7 @@ def runner(string):
 shellins = start()
 if shellins.stdin_param is None:
 	while True:
-		runner(input())
+		runner(input("[" + shellins.path + "]" + " $ "))
 
 else:
 	with open(shellins.stdin_param, "r") as reader:

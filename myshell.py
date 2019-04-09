@@ -1,6 +1,6 @@
 import os
 import sys
-from multiprocessing import Process, Queue
+from multiprocessing import Process
 import subprocess
 import shlex
 import copy 
@@ -24,7 +24,7 @@ class Shellins:
 			"path":self.list_path,
 			"alias": self.alias,
 			"revert" : self.revert_alias
-			}
+			}	
 
 
 
@@ -81,7 +81,7 @@ class Shellins:
 
 
 
-	def list_path(self, *args):
+	def list_path(self):
 		print(self.path, file = self.stdout_param)
 
 	def pause(self):
@@ -97,6 +97,7 @@ class Shellins:
 			background_proc = Process(target = target_func)
 		else:
 			background_proc = Process(target = target_func, args = (arguments,))
+		print("[2] " + str(os.getpid()), file = self.stdout_param)
 		background_proc.run()
 
 
