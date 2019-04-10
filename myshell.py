@@ -1,6 +1,6 @@
 import os
 import sys
-from multiprocessing import Process
+from multiprocessing import *
 import subprocess
 import shlex
 import copy 
@@ -88,7 +88,7 @@ class Shellins:
 		input()
 
 	def quit(self):
-		sys.exit(0)
+		sys.exit()
 
 		
 	def spawn_subprocess(self, target_func, arguments = None):
@@ -98,6 +98,7 @@ class Shellins:
 		else:
 			background_proc = Process(target = target_func, args = (arguments,))
 		print("[2] " + str(os.getpid()), file = self.stdout_param)
+		
 		background_proc.run()
 
 
