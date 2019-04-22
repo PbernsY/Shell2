@@ -65,10 +65,21 @@ class Shellins:
 
 
 	def help(self, more_filter = None):
-		if more_filter is None:
-			with open("Readme.txt") as help_manual:
-				for line in help_manual:
-					print(line)
+		if more_filter is not None:
+			with open("readme", "r") as man:
+				a = man.readlines()
+				x = 0
+				while x < len(a):
+					if input() == "":
+						print(*a[x:x + 20])
+						x += 20
+				return
+		with open("readme", "r") as man:
+			a = man.readlines()
+			print(*a[0:92])
+
+
+
 
 
 	def alias(self, target_command, new_command):

@@ -1,4 +1,2 @@
-/home/darth
-/home/darth
-/home/darth
+[2] 9460
 hello world

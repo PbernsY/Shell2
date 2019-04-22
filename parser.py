@@ -36,23 +36,21 @@ def set_flags(string):
 	return flags, parseable, output
 
 
-def launch(args):
-	# time to execute your input
-	# use os.fork to get the process ID
-	pid = os.fork()
 
-	# if pid > 0 -> Parent process control
-	# else -> Child process control
+def sys_binary(list):
+	pid = os.fork()
 	if pid > 0:
 		wpid = os.waitpid(pid, 0)
-	else:
-		# try to execeute in the form (command, command_args)
-		# generate exception if command does not exist
-		try:
-			os.execvp(args[0], args)
-		except Exception as e:
-			print("myshell: command not found: " + args[0])
 
+	else:
+		try:
+			os.execvp(parseable[0], parseable)
+		except:
+			print("myshell: command not found " + parseable[0])
+			sys.exit()
+
+	
+	
 
 
 def bothflags(exece, args):
@@ -67,10 +65,7 @@ def bothflags(exece, args):
 def oneflag(exece, args):
 	''' this function is called when one flag is set in our flags list'''
 	current_command = shellins.commands[exece]
-	print(parseable)
-	print(flags)
-	print(output)
-	print(args)
+	
 	if len(output) == 0:
 		# if the length of the output list is 0, we just have to background exec
 		if len(args):
@@ -83,14 +78,12 @@ def oneflag(exece, args):
 	else:
 		# we have a redirection symbol but no ampersand
 		if len(args):
-			print("got here")
 			with open(flags[-1], checkwrite(output)) as current_file:
 				# open the file in the appropriate mode
 				shellins.stdout_param = current_file
 				# execute the current command with args
 				current_command(args)
 		else:
-			print("not ")
 			with open(flags[-1], checkwrite(output)) as current_file:
 				# open the file in the appropriate mode
 				shellins.stdout_param = current_file
@@ -113,7 +106,7 @@ def runner(string):
 	try:
 		if exece not in shellins.commands :
 			try:
-				subprocess.run(exece)
+				sys_binary(parseable)
 			except FileNotFoundError:
 				print("myshell: command not found " + string)
 			return
@@ -134,8 +127,7 @@ def runner(string):
 				shellins.commands[exece]()
 	except KeyError:
 		print("command not found " + string)
-	except TypeError:
-		print("Incorrect amount of args supplied to " + exece)
+	
 
 	
 

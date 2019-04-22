@@ -1,2 +1,2 @@
-[2] 5127
 /home/darth
+/home/darth/Shellgit
