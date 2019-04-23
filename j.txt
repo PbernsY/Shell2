@@ -1,2 +1,3 @@
-/home/darth
-/home/darth/Shellgit
+[2] 28984
+hello world
+hello world

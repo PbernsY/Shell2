@@ -108,7 +108,7 @@ class Shellins:
 			background_proc = Process(target = target_func)
 		else:
 			background_proc = Process(target = target_func, args = (arguments,))
-		print("[2] " + str(os.getpid()), file = self.stdout_param)
+		print("[2] " + str(os.getpid()))
 		
 		background_proc.run()
 
