@@ -123,7 +123,8 @@ Will redirect the output to two totally different files which may yield unsatisf
 
 Background Execution
 
-The shell supports background running of programmes/files. The reserved symbol for this is the ampersand "&". 
+The shell supports background running of programmes/files. Essentially, the desired command/program, 
+will run in the background until completed. The reserved symbol for this is the ampersand "&". 
 Upon completion of the command, the shell immediately returns to the prompt, printing the output and PID to stdout.
  An example of this can be seen below 
 
@@ -136,6 +137,13 @@ Background Execution is also compatible with I/O redirection
 echo "Hello world" >> File.txt &
 contents of File are:
 	"Hello world"
+
+Background Execution can be used in conjunction with Program invocation also:
+
+python3 helloworld.py >> Output.txt &
+
+contents of file are:
+	"Hello World"
 
 NOTE: For conviency, the process id will NOT be printed to the file.This would clutter up the file with more or less useless information.
 

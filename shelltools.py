@@ -3,7 +3,6 @@ import os
 import os.path
 import shlex
 import subprocess
-import myshell
 
 
 # Flags are as follows, [background_exec, output_destination]
@@ -78,35 +77,35 @@ def sys_binary(list):
 			sys.exit()
 
 	
-def spawn_process(target, args):
+def spawn_process(shellinstance, target, args):
 	''' this is a utility function to call the spawn process function within the shell class'''
-	shellins.spawn_process(target,args)
+	shellinstance.spawn_process(target,args)
 
 
 
-def bothflags(exece, args):
-	current_command = shellins.commands[exece]
+def bothflags(shellinstance, exece, args):
+	current_command = shellinstance.commands[exece]
 	''' this function is called when both flags are set [background_exec, outputfilename]'''
 	with open(flags[-1], checkwrite(output)) as current_file:
 		# open the file name with file mode depending on the checkwrite function
-		shellins.stdout_param = current_file
+		shellinstance.stdout_param = current_file
 		# modify the stdout of our shell based on file we opened
 		# spawn a process for our shell to exec 
-		spawn_process(current_command, args)
+		spawn_process(shellinstance, current_command, args)
 
-def oneflag(exece, args):
+def oneflag(shellinstance,exece, args):
 	''' this function is called when one flag is set in our flags list'''
-	current_command = shellins.commands[exece]
+	current_command = shellinstance.commands[exece]
 	if len(output) == 0:
 		# if the length of the output list is 0, we just have to background exec
-		spawn_process(current_command, args)
+		spawn_process(shellinstance,current_command, args)
 		#spawns a process for the command
 		return
 	else:
 		# we simply have to redirect output, not background exec
 		with open(flags[-1], checkwrite(output)) as current_file:
 			# open the file in the appropriate mode
-			shellins.stdout_param = current_file
+			shellinstance.stdout_param = current_file
 			# change stdout to the file
 			if len(args):
 				# this implies our command has arguments, pass them
@@ -119,24 +118,29 @@ def checkwrite(output_list):
 	''' handy little function to determine the filemode'''
 	return "a" if ">>" in output_list else "w"
 
-def runner(string):
-	if len(string) is 0:
+def runner(shellinstance, string):
+	if len(string) == 0:
 		return
 		# utility to prevent erros
 	set_flags(string)
+	#set flags as applicable
+	if not len(parseable):
+		print("Please enter the command correctly, error occurred", file = shellinstance.stdout_param)
+		return
 	if parseable[0][0] == "$":
 		environ_var = os.path.expandvars(parseable[0])
-		print(environ_var, file = shellins.stdout_param)
+		print(environ_var, file = shellinstance.stdout_param)
 		return
 	#set flags as applicable
-	shellins.stdout_param = sys.__stdout__
+	shellinstance.stdout_param = sys.__stdout__
 	# ensure stdout is reverted back to default
 	exece = parseable[0]
 	# exece is the command
 	new_args = " ".join(parseable[1:])
 	args = os.path.expandvars(new_args)
+	# this expands any environment variables $[VAR]
 	try:
-		if exece not in shellins.commands :
+		if exece not in shellinstance.commands :
 			# if the command isnt in our dictionary, try to exec it as a sys binary/programme invocation
 			try:
 				check_background_redirect(parseable)
@@ -144,15 +148,15 @@ def runner(string):
 				# this catches if the command was not found 
 				print("myshell: command not found " + string)
 			return
-		current_command = shellins.commands[exece]
+		current_command = shellinstance.commands[exece]
 		# reference the code like above, helps improve appearance
 		if len(flags) == 2:
 			# call both flags function is they are both set
-			bothflags(exece, args)
+			bothflags(shellinstance, exece, args)
 
 		elif len(flags) == 1:
 			# same as above, call one flag if one is set
-			oneflag(exece, args)
+			oneflag(shellinstance, exece, args)
 		else:
 			# we are dealing with  a standard command
 			if len(args):
@@ -174,13 +178,6 @@ def runner(string):
 
 
 
-def starter():
-	commands = sys.argv[1:]
-	if len(commands):
-		return myshell.Shellins(commands[0])
-	else:
-		return myshell.Shellins()
-	
 
 
 
