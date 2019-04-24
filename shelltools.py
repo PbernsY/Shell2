@@ -6,7 +6,7 @@ import subprocess
 
 
 # Flags are as follows, [background_exec, output_destination]
-def set_flags(string):
+def set_flags(shellinstance, string):
 	''' This is a function to set a list of flags. These flags are then used to perform tasks
 	like background execution etc '''
 	global flags
@@ -19,17 +19,20 @@ def set_flags(string):
 	if not len(string):
 		return
 		# this prevent us trying to index an empty string
-	if parseable[-1] == "&":
-		# we know, if the ampersand is present, it can only be the last character of the input string
-		# if thats the case, append the ampersand to the flags list while removing it from the end of the input string
-		flags.append(parseable.pop())
+	try:	
+		if parseable[-1] == "&":
+			# we know, if the ampersand is present, it can only be the last character of the input string
+			# if thats the case, append the ampersand to the flags list while removing it from the end of the input string
+			flags.append(parseable.pop())
 
-	if ">>" in string or ">" in string:
-		# append the redirection file name to the flags list
+		if ">>" in string or ">" in string:
+			# append the redirection file name to the flags list
 
-		flags.append(parseable.pop())
-		# append the redirection symbol to the output list
-		output.append(parseable.pop())
+			flags.append(parseable.pop())
+			# append the redirection symbol to the output list
+			output.append(parseable.pop())
+	except IndexError:
+		print("Please enter the command in the proper format, COMMAND [ARGS] [REDIRECT] [BACKEXEC]", file = shellinstance.stdout_param)
 
 	return flags, parseable, output
 
@@ -53,12 +56,12 @@ def check_background_redirect(command):
 			subprocess.run(command, stdout = current_file)
 
 	else:
-		sys_binary(command)
+		program_invoc(command)
 
 
 
 
-def sys_binary(list):
+def program_invoc(list):
 	''' i said this shell didnt use the force, but theres some unwordly action going on here ;)'''
 	pid = os.fork()
 	# if pid > 0 -> Parent process control
@@ -121,11 +124,10 @@ def checkwrite(output_list):
 def runner(shellinstance, string):
 	if len(string) == 0:
 		return
-		# utility to prevent erros
-	set_flags(string)
+		# utility to prevent errors
+	set_flags(shellinstance, string)
 	#set flags as applicable
 	if not len(parseable):
-		print("Please enter the command correctly, error occurred", file = shellinstance.stdout_param)
 		return
 	if parseable[0][0] == "$":
 		environ_var = os.path.expandvars(parseable[0])
@@ -169,9 +171,6 @@ def runner(shellinstance, string):
 			else:
 				# func takes no args, pass none 
 				current_command()
-	except KeyError:
-		print("command not found " + string)
-	
 	except TypeError:
 		print("incorrect amount of args supplied to " + exece)
 

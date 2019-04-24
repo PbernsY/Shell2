@@ -1,7 +1,10 @@
+Name : Conor Berns
+Student ID: 17456886
+
 myshell manual
 
 myshell is a simplistic shell written in Python3. It uses custom written commands where specified below in the commands description. 
-All other commands entered, if correct, fall back on Linux System binaries. It cannot be used to figure out who dies in season 8 of 
+All other commands entered, if correct, fall back on program invocation. It cannot be used to figure out who dies in season 8 of 
 game of thrones or use the force, watch this space for updates however. This may be made available :). 
 -------------------------------------------------------------------------------------------------------------------------------------------------
 Instantiation:
@@ -24,10 +27,14 @@ Operation
 
 The shell interprets and parses' user commands in real time. Any command outlined in the commands section of this manual are executed WITHOUT spawning a process unless the ampersand is present.
 
-For commands that fall back on system binaries, they are forked and executed.
+ALL commands/programs in this shell are compatable with background execution and I/O redirection. Both of these topics are explained further on 
+in the manual.
+
+For commands that invoke programmes, these are forked and execd appropriately. While this shell DOES NOT use any system binaries to execute commands outlined in the spec, system binaries CAN be executed.
 
 The shell also supports background execution of commands, identical to standard UNIX shell.
-If the command is entered with an ampersand ("&") at the end of the line, the shell will spawn a subprocess and execute the command. 
+If the command is entered with an ampersand ("&") at the end of the line, the shell will spawn a process and execute the command. If the 
+executable is a Program, a subprocess will be called upon.  
 The user will know when the process is finished as the shell will display a process id and the output(if any). More detail of background execution is explained further on in the manual.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------
@@ -123,9 +130,9 @@ Will redirect the output to two totally different files which may yield unsatisf
 
 Background Execution
 
-The shell supports background running of programmes/files. Essentially, the desired command/program, 
-will run in the background until completed. The reserved symbol for this is the ampersand "&". 
-Upon completion of the command, the shell immediately returns to the prompt, printing the output and PID to stdout.
+The shell supports background running of programmes/files.The desired command/program, 
+will run in the background until completed.The reserved symbol for this is the ampersand "&". 
+Upon completion of the command, the shell immediately returns to the prompt, printing the output (if any) and PID to stdout.
  An example of this can be seen below 
 
 echo  "Hello World" &
@@ -145,5 +152,24 @@ python3 helloworld.py >> Output.txt &
 contents of file are:
 	"Hello World"
 
-NOTE: For conviency, the process id will NOT be printed to the file.This would clutter up the file with more or less useless information.
 
+The above command opens the python script in the background and directs output to Output.txt. 
+
+Background execution can be used with commands like help and quit. This is, obviosuly unintuitive, but still possible.
+
+NOTE: For conviency, the process id will NOT be printed to the file.This would clutter up the file with more or less useless information.
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+Environment
+
+The shell has environment variables set as per modus operandi of most shells. The $shell and $PWD variable have been set.
+The $shell variable is a constant value, set from the point of execution of the shell. That is, if you run the shell in 
+home/reilly/Shell , the $shell variable will remain set to home/reilly/Shell. 
+
+The $PWD variable changes as per the current working directory the user is in. This is originally set to the path of first execution.
+
+
+Both of these values, as a matter of fact, all shell environment variables can be accessed by typing $[VAR], where VAR is a valid key in the the environ dictionary into the command prompt.
+This will display the value of the environment variable.
+
+Essentially, environment variables are set to allow access of command line tools and to let other system tools interact easier. 

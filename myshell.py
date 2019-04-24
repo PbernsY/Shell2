@@ -1,3 +1,5 @@
+#Name: Conor Berns
+#Student ID: 17456886
 import os
 import os.path
 import sys
@@ -45,7 +47,7 @@ class Shellins:
 				self.environ["PWD"] = self.path
 				print(self.path, file=self.stdout_param)
 			except FileNotFoundError:
-				print("No such directory", file=self.stdout_param)
+				print("No such directory " + target, file=self.stdout_param)
 	
 	def list_dir(self, target = None):
 		# split the path to be indexed easily
@@ -64,7 +66,7 @@ class Shellins:
 				for i in listconts:
 					print(i, file = self.stdout_param)
 			except FileNotFoundError:
-				print("The directory does not exist", file = self.stdout_param)
+				print("No such directory " + target , file = self.stdout_param)
 			except NotADirectoryError:
 				print(target + " is not a directory", file = self.stdout_param)
 	def clear_screen(self):
@@ -154,7 +156,6 @@ class Shellins:
 				background_proc.run()
 		# cool little pid 
 		
-		#background_proc.run()
 
 
 
