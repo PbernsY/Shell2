@@ -1,3 +1,0 @@
-hello                                        world
-.git rename.py .test.py.swp deck2.txt lands.txt myshell.py Hello.txt test_deck.txt Input.txt test.py invoker.py deck.txt parser.py
-/home/darth/Shellgit

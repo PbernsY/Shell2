@@ -1,3 +1,6 @@
+# Name: Conor Berns
+# Student ID: 17456886
+
 import sys
 import os
 import os.path
